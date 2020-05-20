@@ -1,7 +1,17 @@
-const notificationReducer = (state = "", action) => {
+const notificationReducer = (
+  state = { message: "", timeoutID: null },
+  action
+) => {
+  console.log(action.timeoutID);
+
   switch (action.type) {
     case "SET_MESSAGE":
-      return action.message;
+      if (state.timeoutID) {
+        clearTimeout(state.timeoutID);
+      }
+      return { message: action.message, timeoutID: null };
+    case "SET_TIMEOUTID":
+      return { ...state, timeoutID: action.timeoutID };
     default:
       return state;
   }
@@ -10,9 +20,10 @@ const notificationReducer = (state = "", action) => {
 export const setMessage = (message, timeout) => {
   return async (dispatch) => {
     dispatch({ type: "SET_MESSAGE", message });
-    setTimeout(() => {
+    const timeoutID = setTimeout(() => {
       dispatch({ type: "SET_MESSAGE", message: "" });
     }, timeout);
+    dispatch({ type: "SET_TIMEOUTID", timeoutID });
   };
 };
 
