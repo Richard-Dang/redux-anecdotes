@@ -16,11 +16,9 @@ const AnecdoteList = () => {
     return anecdotesToShow.sort((a, b) => a.votes < b.votes);
   });
 
-  const vote = (id) => {
-    const anecdote = anecdotes.find((a) => a.id === id);
-    dispatch(voteFor(id));
-    dispatch(setMessage(`You voted "${anecdote.content}"`));
-    setTimeout(() => dispatch(setMessage("")), 3000);
+  const vote = (anecdote) => {
+    dispatch(voteFor(anecdote));
+    dispatch(setMessage(`You voted "${anecdote.content}"`, 3000));
   };
   return (
     <div>
@@ -29,7 +27,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       ))}

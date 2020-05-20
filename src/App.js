@@ -5,15 +5,13 @@ import Notification from "./components/Notification";
 import { initializeAnecdotes } from "./reducers/anecdoteReducer";
 import Filter from "./components/Filter";
 import { useDispatch } from "react-redux";
-import anecdotesService from "./services/anecdotes";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchAnecdotes = async () => {
-      const anecdotes = await anecdotesService.getAll();
-      dispatch(initializeAnecdotes(anecdotes));
+      dispatch(initializeAnecdotes());
     };
     fetchAnecdotes();
   }, [dispatch]);
